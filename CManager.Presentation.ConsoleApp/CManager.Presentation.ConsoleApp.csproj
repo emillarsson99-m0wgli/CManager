@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CManager.Business\CManager.Business.csproj" />
+  </ItemGroup>
+
 </Project>
