@@ -56,4 +56,26 @@ public class CustomerService : ICustomerService
             return [];
         }
     }
+
+
+    public bool DeleteCustomer(Guid id)
+    {
+        try
+        {
+            var customers = _CustomerRepo.GetAllCustomers();
+            var customer = customers.FirstOrDefault(c => c.Id == id);
+
+            if (customer == null)
+                return false;
+
+            customers.Remove(customer);
+            var result = _CustomerRepo.SaveCustomer(customers);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting customer: {ex.Message}");
+            return false;
+        }
+    }
 }
