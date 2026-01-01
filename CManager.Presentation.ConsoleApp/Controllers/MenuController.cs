@@ -1,4 +1,5 @@
 ﻿using CManager.Business.Services;
+using CManager.Presentation.ConsoleApp.Helpers;
 using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
 
@@ -52,13 +53,13 @@ public class MenuController
         Console.Clear();
         Console.WriteLine("=== Add New Customer ===");
 
-        var firstName = ;
-        var lastName = ;
-        var email = ;
-        var phoneNumber = ;
-        var streetName = ;
-        var postalCode = ;
-        var city = ;
+        var firstName = InputHelper.ValidateInput("First Name", ValidationType.Required);
+        var lastName = InputHelper.ValidateInput("Last Name", ValidationType.Required);
+        var email = InputHelper.ValidateInput("Email", ValidationType.Email);
+        var phoneNumber = InputHelper.ValidateInput("Phonenumber", ValidationType.Required);
+        var streetName = InputHelper.ValidateInput("StreetName", ValidationType.Required);
+        var postalCode = InputHelper.ValidateInput("Postal code", ValidationType.Required);
+        var city = InputHelper.ValidateInput("City", ValidationType.Required);
 
 
         var result = _customerService.CreateCustomer(firstName, lastName, email, phoneNumber, streetName, postalCode, city);
