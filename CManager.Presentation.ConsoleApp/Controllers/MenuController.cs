@@ -73,6 +73,38 @@ public class MenuController
         OutputDialog("Press any key to continue.");
     }
 
+
+    private void ViewAllCustomers()
+    {
+        Console.Clear();
+        Console.WriteLine("=== All Customers ===");
+
+        var customers = _customerService.GetAllCustomers(out bool hasError);
+
+        if (hasError)
+        {
+            Console.WriteLine("Something went wrong! Please try again!");
+        }
+        if (!customers.Any())
+        {
+            Console.WriteLine("No customers found!");
+        }
+        else
+        {
+            foreach(var customer in customers)
+            {
+                Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
+                Console.WriteLine($"Email: {customer.Email}");
+                Console.WriteLine($"Phonenumber: {customer.PhoneNumber}");
+                Console.WriteLine($"Adress: {customer.Adress.StreetName} {customer.Adress.PostalCode} {customer.Adress.City}");
+                Console.WriteLine($"ID: {customer.Id}");
+                Console.WriteLine();
+            }
+        }
+
+        OutputDialog("Press any key to continue");
+    }
+
     private void OutputDialog(string message)
     {
         Console.WriteLine("");
