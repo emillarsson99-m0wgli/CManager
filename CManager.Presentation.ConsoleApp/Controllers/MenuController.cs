@@ -72,4 +72,10 @@ public class MenuController
         }
         OutputDialog("Press any key to continue.");
     }
+
+    private void OutputDialog(string message)
+    {
+        Console.WriteLine("");
+        Console.ReadKey();
+    }
 }
