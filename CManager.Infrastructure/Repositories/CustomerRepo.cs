@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace CManager.Infrastructure.Repositories;
 
-public class CustomerRepo
+public class CustomerRepo : ICustomerRepo
 {
     private readonly string _filePath;
     private readonly string _directoryPath;
