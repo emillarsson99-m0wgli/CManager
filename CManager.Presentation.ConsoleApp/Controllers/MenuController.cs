@@ -29,21 +29,47 @@ public class MenuController
             switch (input)
             {
                 case "1":
-
+                    AddNewCustomer();
                     break;
                 case "2":
-
+                    ViewAllCustomers();
                     break;
                 case "3":
-
+                    DeleteCustomer();
                     break;
                 case "0":
-
                     return;
                 default:
-                    
-
+                    OutputDialog("Invalid option... Press any key to continue.");
             }
         }
+    }
+
+    private void AddNewCustomer()
+    {
+        Console.Clear();
+        Console.WriteLine("=== Add New Customer ===");
+
+        var firstName = ;
+        var lastName = ;
+        var email = ;
+        var phoneNumber = ;
+        var streetName = ;
+        var postalCode = ;
+        var city = ;
+
+
+        var result = _customerService.CreateCustomer(firstName, lastName, email, phoneNumber, streetName, postalCode, city);
+
+        if (result)
+        {
+            Console.WriteLine("The customer has been added successfully.");
+            Console.WriteLine($"Name: {firstName} {lastName}");
+        }
+        else
+        {
+            Console.WriteLine("Something went wrong... The customer could not be added.");
+        }
+        OutputDialog("Press any key to continue.");
     }
 }
