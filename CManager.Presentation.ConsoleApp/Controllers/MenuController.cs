@@ -42,6 +42,7 @@ public class MenuController
                     return;
                 default:
                     OutputDialog("Invalid option... Press any key to continue.");
+                    break;
             }
         }
     }
