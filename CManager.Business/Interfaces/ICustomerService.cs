@@ -1,6 +1,10 @@
-﻿namespace CManager.Business.Services;
+﻿using CManager.Domain.Models;
+
+namespace CManager.Business.Interfaces;
 
 public interface ICustomerService
 {
     bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string StreetName, string postalCode, string city);
+    IEnumerable<CustomerModel> GetAllCustomers(out bool hasError);
+    bool DeleteCustomer(Guid id);
 }
