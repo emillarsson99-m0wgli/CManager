@@ -1,4 +1,4 @@
-﻿using CManager.Business.Services;
+﻿using CManager.Business.Interfaces;
 using CManager.Presentation.ConsoleApp.Helpers;
 using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;

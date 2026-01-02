@@ -1,6 +1,6 @@
 ﻿using CManager.Domain.Models;
 
-namespace CManager.Business.Services;
+namespace CManager.Business.Interfaces;
 
 public interface ICustomerService
 {

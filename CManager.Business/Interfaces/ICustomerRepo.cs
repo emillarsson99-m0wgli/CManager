@@ -1,6 +1,6 @@
 ﻿using CManager.Domain.Models;
 
-namespace CManager.Infrastructure.Repositories;
+namespace CManager.Business.Interfaces;
 
 public interface ICustomerRepo
 {

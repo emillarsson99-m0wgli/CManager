@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CManager.Domain\CManager.Domain.csproj" />
-    <ProjectReference Include="..\CManager.Infrastructure\CManager.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

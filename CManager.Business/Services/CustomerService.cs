@@ -1,5 +1,6 @@
-﻿using CManager.Domain.Models;
-using CManager.Infrastructure.Repositories;
+﻿using CManager.Business.Interfaces;
+using CManager.Domain.Models;
+
 
 namespace CManager.Business.Services;
 
