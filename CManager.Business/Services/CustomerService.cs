@@ -1,18 +1,12 @@
-﻿using CManager.Business.Interfaces;
+﻿using CManager.Domain.Factories;
 using CManager.Domain.Models;
-
 
 namespace CManager.Business.Services;
 
 public class CustomerService : ICustomerService
 {
 
-    private readonly ICustomerRepo _CustomerRepo;
 
-    public CustomerService(ICustomerRepo customerRepo)
-    {
-        _CustomerRepo = customerRepo;
-    }
     public bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string StreetName, string postalCode, string city)
     {
         CustomerModel customerModel = new()
