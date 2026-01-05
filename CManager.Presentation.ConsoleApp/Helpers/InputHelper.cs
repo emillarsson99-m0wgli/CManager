@@ -5,12 +5,13 @@ namespace CManager.Presentation.ConsoleApp.Helpers;
 public enum ValidationType
 {
     Required,
-    Email
+    Email,
+    Optional
 }
 
 public static class InputHelper
 {
-    public static string ValidateInput(string fieldName, ValidationType validationType)
+    public static string? ValidateInput(string fieldName, ValidationType validationType)
     {
         while (true)
         {
@@ -19,6 +20,9 @@ public static class InputHelper
 
             if (string.IsNullOrWhiteSpace(input))
             {
+                if (validationType == ValidationType.Optional) // Har använt ai för att kunna behålla kundinformation som inte behöver ändras i EditCustomer
+                    return null;
+
                 Console.WriteLine($"{fieldName} is required. Press any key to try again.");
                 Console.ReadKey();
                 continue;

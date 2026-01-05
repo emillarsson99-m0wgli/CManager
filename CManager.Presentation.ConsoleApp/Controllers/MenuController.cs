@@ -22,7 +22,8 @@ public class MenuController
             Console.WriteLine("=== Customer Management System ===");
             Console.WriteLine("1. Add new customer");
             Console.WriteLine("2. View all customers");
-            Console.WriteLine("3. Delete Customer");
+            Console.WriteLine("3. Delete customer");
+            Console.WriteLine("4. Edit customer");
             Console.WriteLine("0. Exit");
             Console.Write("Select an option: ");
 
@@ -38,6 +39,9 @@ public class MenuController
                     break;
                 case "3":
                     DeleteCustomer();
+                    break;
+                case "4":
+                    EditCustomer();
                     break;
                 case "0":
                     return;
@@ -250,13 +254,13 @@ public class MenuController
                 Console.WriteLine($"Editing: {selectedCustomer.FirstName} {selectedCustomer.LastName}");
                 Console.WriteLine();
 
-                var firstName = InputHelper.ValidateInput("First Name", ValidationType.Required);
-                var lastName = InputHelper.ValidateInput("Last Name", ValidationType.Required);
-                var email = InputHelper.ValidateInput("Email", ValidationType.Email);
-                var phoneNumber = InputHelper.ValidateInput("Phonenumber", ValidationType.Required);
-                var streetName = InputHelper.ValidateInput("StreetName", ValidationType.Required);
-                var postalCode = InputHelper.ValidateInput("Postal code", ValidationType.Required);
-                var city = InputHelper.ValidateInput("City", ValidationType.Required);
+                var firstName = InputHelper.ValidateInput("First Name", ValidationType.Optional) ?? selectedCustomer.FirstName; // Har använt ai för att kunna behålla tidigare 
+                var lastName = InputHelper.ValidateInput("Last Name", ValidationType.Optional) ?? selectedCustomer.LastName;    // kundinformation istället för att returnera ett null värde om jag 
+                var email = InputHelper.ValidateInput("Email", ValidationType.Optional) ?? selectedCustomer.Email;              // endast trycker på "Enter"
+                var phoneNumber = InputHelper.ValidateInput("Phonenumber", ValidationType.Optional) ?? selectedCustomer.PhoneNumber;
+                var streetName = InputHelper.ValidateInput("StreetName", ValidationType.Optional) ?? selectedCustomer.Adress.StreetName;
+                var postalCode = InputHelper.ValidateInput("Postal code", ValidationType.Optional) ?? selectedCustomer.Adress.PostalCode;
+                var city = InputHelper.ValidateInput("City", ValidationType.Optional) ?? selectedCustomer.Adress.City;
 
                 var result = _customerService.EditCustomer(
                     selectedCustomer.Id,
