@@ -128,14 +128,14 @@ public class MenuController
         {
             while(true)
             {
-                for (int i = 0; i < customers.Count(); i++)
+                for (int i = 0; i < customers.Count; i++)
                 {
                     var customer = customers[i];
                     Console.WriteLine($"[{i + 1} {customer.FirstName} {customer.LastName}");
                 }
 
                 Console.WriteLine("[0] Go back to menu");
-                Console.Write("Enter number of the customer you want to delete");
+                Console.Write("Enter number of the customer you want to delete: ");
                 var input = Console.ReadLine();
 
                 if (!int.TryParse(input, out int choice))
@@ -160,39 +160,131 @@ public class MenuController
                 Console.WriteLine("You have selected: ");
                 Console.WriteLine($"Name: {selectedCustomer.FirstName} {selectedCustomer.LastName}");
 
-                Console.WriteLine("Are you sure you want to delete this customer=");
-                var confirmation = Console.ReadLine()!.ToLower();
 
-                if (confirmation == "y")
+                while (true)
                 {
-                    var result = _customerService.DeleteCustomer(selectedCustomer.Id);
-                    if (result)
+                    Console.WriteLine("Are you sure you want to delete this customer? (y/n): ");
+                    var confirmation = Console.ReadLine()!.ToLower();
+
+                    if (confirmation == "y")
                     {
-                        OutputDialog("Customer was removed, press any key to go back");
-                        break;
+                        var result = _customerService.DeleteCustomer(selectedCustomer.Id);
+                        if (result)
+                        {
+                            OutputDialog($"Customer was removed, press any key to go back");
+                            return;
+                        }
+                        else
+                        {
+                            OutputDialog($"Something went wrong! Press any key to try again.");
+                            return;
+                        }
+                    }
+                    else if (confirmation == "n")
+                    {
+                        return;
                     }
                     else
                     {
-                        OutputDialog($"Something went wrong! Press any key to try again.");
-                        return;
+                        OutputDialog("Please enter 'y' for yes or 'n' for no, press any key to try again");
+                        continue;
                     }
-                }
-                else if (confirmation == "n")
-                {
-                    break;
-                }
-                else
-                {
-                    OutputDialog("Please enter 'y' for yes or 'n' for no, press any key to try again");
                 }
             }
         }
         OutputDialog("Press any key to continue...");
     }
 
+
+    private void EditCustomer()
+    {
+        Console.Clear();
+        Console.WriteLine("=== Edit customer ===");
+
+        var customers = _customerService.GetAllCustomers(out bool hasError).ToList();
+
+        if (hasError)
+        {
+            Console.WriteLine("Something went wrong! Please try again!");
+        }
+        if (!customers.Any())
+        {
+            Console.WriteLine("No customers found!");
+        }
+        else
+        {
+            while (true)
+            {
+                for (int i = 0; i < customers.Count; i++)
+                {
+                    var customer = customers[i];
+                    Console.WriteLine($"[{i + 1} {customer.FirstName} {customer.LastName}");
+                }
+
+                Console.WriteLine("[0] Go back to menu");
+                Console.Write("Enter number of the customer you want to edit: ");
+
+                var input = Console.ReadLine();
+
+                if (!int.TryParse(input, out int choice))
+                {
+                    OutputDialog("Not a valid number! Press any key to try again.");
+                    continue;
+                }
+                if (choice == 0)
+                {
+                    return;
+                }
+                if (choice > customers.Count)
+                {
+                    Console.WriteLine($"Number must be between 1 and {customers.Count}. Press any key to try again");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                var index = choice - 1;
+                var selectedCustomer = customers[choice - 1];
+
+                Console.Clear();
+                Console.WriteLine("=== Edit Customer ===");
+                Console.WriteLine($"Editing: {selectedCustomer.FirstName} {selectedCustomer.LastName}");
+                Console.WriteLine();
+
+                var firstName = InputHelper.ValidateInput("First Name", ValidationType.Required);
+                var lastName = InputHelper.ValidateInput("Last Name", ValidationType.Required);
+                var email = InputHelper.ValidateInput("Email", ValidationType.Email);
+                var phoneNumber = InputHelper.ValidateInput("Phonenumber", ValidationType.Required);
+                var streetName = InputHelper.ValidateInput("StreetName", ValidationType.Required);
+                var postalCode = InputHelper.ValidateInput("Postal code", ValidationType.Required);
+                var city = InputHelper.ValidateInput("City", ValidationType.Required);
+
+                var result = _customerService.EditCustomer(
+                    selectedCustomer.Id,
+                    firstName,
+                    lastName,
+                    email,
+                    phoneNumber,
+                    streetName,
+                    postalCode,
+                    city
+                    );
+
+                if (result)
+                {
+                    OutputDialog($"Customer: {selectedCustomer.FirstName} {selectedCustomer.LastName} has been successfully updated.");
+                }
+                else
+                {
+                    OutputDialog("Something went wrong! Customer was not updated.");
+                }
+                return;
+            }
+        }
+    }
+
     private void OutputDialog(string message)
     {
-        Console.WriteLine("");
+        Console.WriteLine(message);
         Console.ReadKey();
     }
 }
