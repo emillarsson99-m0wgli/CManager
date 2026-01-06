@@ -157,14 +157,14 @@ public class MenuController
                 {
                     return;
                 }
-                if (choice < customers.Count)
+                if (choice < 1 || choice > customers.Count) //Ai är använt i denna raden då tidigare hade jag endast skrivit "if (choice < customers.Count)" vilket gjorde att användaren avisades om den valde ett tal under antalet kunder. t ex om det fanns 3 kunder och användaren valde 1 så aviserade den att talet måste vara mellan 1 och 3, vilket var felaktigt.
                 {
                     Console.WriteLine($"Number must be between 1 and {customers.Count}. Press any key to try again.");
                     Console.ReadKey();
                     continue;
                 }
 
-                var selectedCustomer = customers[choice - 1]; //Har använt ai här då jag tidigare endast hade skrivit "var sleectedId = choice - 1" vilket hade hämtat en int. GetCustomer förväntade sig ett Guid.
+                var selectedCustomer = customers[choice - 1]; //Har använt ai här då jag tidigare endast hade skrivit "var selectedCustomer = choice - 1" vilket hade hämtat en int. GetCustomer förväntade sig ett Guid.
                 var customer = _customerService.GetCustomer(selectedCustomer.Id);
 
                 if (customer == null)
