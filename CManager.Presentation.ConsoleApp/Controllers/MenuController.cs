@@ -23,8 +23,9 @@ public class MenuController
             Console.WriteLine("=== Customer Management System ===");
             Console.WriteLine("1. Add new customer");
             Console.WriteLine("2. View all customers");
-            Console.WriteLine("3. Delete customer");
-            Console.WriteLine("4. Edit customer");
+            Console.WriteLine("3. View a specific customer");
+            Console.WriteLine("4. Delete customer");
+            Console.WriteLine("5. Edit customer");
             Console.WriteLine("0. Exit");
             Console.Write("Select an option: ");
 
@@ -39,9 +40,12 @@ public class MenuController
                     ViewAllCustomers();
                     break;
                 case "3":
-                    DeleteCustomer();
+                    GetCustomer();
                     break;
                 case "4":
+                    DeleteCustomer();
+                    break;
+                case "5":
                     EditCustomer();
                     break;
                 case "0":
@@ -111,12 +115,12 @@ public class MenuController
     }
 
 
-    private void ViewCustomer()
+    public void GetCustomer()
     {
         Console.Clear();
         Console.WriteLine("=== Choose customer for more info ===");
 
-        var customers = _customerService.GetAllCustomers(out bool hasError);
+        var customers = _customerService.GetAllCustomers(out bool hasError).ToList();
 
         if (hasError)
         {
@@ -128,13 +132,60 @@ public class MenuController
         }
         else
         {
-            foreach (var customer in customers)
+            while (true)
             {
+                Console.Clear();
+                Console.WriteLine("=== Choose customer for more info ===");
+
+                for (int i = 0; i < customers.Count(); i++)
+                {
+                    var getCustomer = customers[i];
+                    Console.WriteLine($"[{i + 1} {getCustomer.Id} {getCustomer.FirstName} {getCustomer.LastName}");
+                }
+
+                Console.WriteLine("[0] Go back to menu");
+                Console.Write("Enter the number of the customer you want to view: ");
+                var input = Console.ReadLine();
+
+                if (!int.TryParse(input, out int choice))
+                {
+                    Console.WriteLine("Not a valid number. Press any key to try again.");
+                    Console.ReadKey();
+                    continue;
+                }
+                if (choice == 0)
+                {
+                    return;
+                }
+                if (choice < customers.Count)
+                {
+                    Console.WriteLine($"Number must be between 1 and {customers.Count}. Press any key to try again.");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                var selectedCustomer = customers[choice - 1]; //Har använt ai här då jag tidigare endast hade skrivit "var sleectedId = choice - 1" vilket hade hämtat en int. GetCustomer förväntade sig ett Guid.
+                var customer = _customerService.GetCustomer(selectedCustomer.Id);
+
+                if (customer == null)
+                {
+                    Console.WriteLine("Customer could not be found. Press any key to return to menu.");
+                    Console.ReadKey();
+                    return;
+                }
+                Console.Clear();
+                Console.WriteLine("=== Customer details ===");
                 Console.WriteLine($"Id: {customer.Id}");
-                Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");               
-                Console.WriteLine();
+                Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
+                Console.WriteLine($"Email: {customer.Email}");
+                Console.WriteLine($"Phonenumber: {customer.PhoneNumber}");
+                Console.WriteLine($"Adress: {customer.Adress.StreetName} {customer.Adress.PostalCode} {customer.Adress.City}");
+
+                Console.WriteLine("Press any key to go back");
+                Console.ReadKey();
+                return;
             }
-        }   
+        }
     }
 
     private void DeleteCustomer()
