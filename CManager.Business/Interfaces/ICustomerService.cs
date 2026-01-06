@@ -17,4 +17,6 @@ public interface ICustomerService
         string? streetName = null,
         string? postalCode = null,
         string? city = null);
+
+    CustomerModel? GetCustomer(Guid id);
 }

@@ -58,6 +58,13 @@ public class CustomerService : ICustomerService
         }
     }
 
+    public CustomerModel? GetCustomer(Guid id)
+    {
+        var customers = _CustomerRepo.GetAllCustomers();
+        return customers?.FirstOrDefault(c => c.Id == id); //Har tagit hjälp av ai för denna metoden
+        // Frågeteckenet efter "customers" ser till att vi inte får undantag om "customers" är null.
+        // Utan detta så hade repon krashat om det inte fanns några kunder.
+    }
 
     public bool DeleteCustomer(Guid id)
     {

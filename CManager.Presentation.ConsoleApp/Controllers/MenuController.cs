@@ -2,6 +2,7 @@
 using CManager.Presentation.ConsoleApp.Helpers;
 using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CManager.Presentation.ConsoleApp.Controllers;
 
@@ -102,9 +103,6 @@ public class MenuController
             {
                 Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
                 Console.WriteLine($"Email: {customer.Email}");
-                Console.WriteLine($"Phonenumber: {customer.PhoneNumber}");
-                Console.WriteLine($"Adress: {customer.Adress.StreetName} {customer.Adress.PostalCode} {customer.Adress.City}");
-                Console.WriteLine($"ID: {customer.Id}");
                 Console.WriteLine();
             }
         }
@@ -112,6 +110,32 @@ public class MenuController
         OutputDialog("Press any key to continue");
     }
 
+
+    private void ViewCustomer()
+    {
+        Console.Clear();
+        Console.WriteLine("=== Choose customer for more info ===");
+
+        var customers = _customerService.GetAllCustomers(out bool hasError);
+
+        if (hasError)
+        {
+            Console.WriteLine("Something went wrong! Please try again!");
+        }
+        if (!customers.Any())
+        {
+            Console.WriteLine("No customers found!");
+        }
+        else
+        {
+            foreach (var customer in customers)
+            {
+                Console.WriteLine($"Id: {customer.Id}");
+                Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");               
+                Console.WriteLine();
+            }
+        }   
+    }
 
     private void DeleteCustomer()
     {
