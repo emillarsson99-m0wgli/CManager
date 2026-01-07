@@ -56,8 +56,9 @@ public class CustomerService_Test
         var mockCustomerRepo = Substitute.For<ICustomerRepo>();
         var mockList = new List<CustomerModel>
         {
-            new CustomerModel {Id = Guid.NewGuid(), FirstName = "Cassius", LastName = "Clay"},
+            new CustomerModel {Id = Guid.NewGuid(), FirstName = "Cassius", LastName = "Clay"}, 
             new CustomerModel {Id = Guid.NewGuid(), FirstName = "Mike", LastName = "Tyson"}
+            //Värden som kommer jämföras i assert delen.
         };
 
         mockCustomerRepo.GetAllCustomers().Returns(mockList);
