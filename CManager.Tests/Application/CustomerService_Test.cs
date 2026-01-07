@@ -49,6 +49,28 @@ public class CustomerService_Test
         ));
     }
 
+    [Fact]
+    public void GetAllCustomers_ShouldReturnCustomers_()
+    {
+        //Arrange
+        var mockCustomerRepo = Substitute.For<ICustomerRepo>();
+        var mockList = new List<CustomerModel>
+        {
+            new CustomerModel {Id = Guid.NewGuid(), FirstName = "Cassius", LastName = "Clay"},
+            new CustomerModel {Id = Guid.NewGuid(), FirstName = "Mike", LastName = "Tyson"}
+        };
 
+        mockCustomerRepo.GetAllCustomers().Returns(mockList);
 
+        var mockService = new CustomerService(mockCustomerRepo);
+
+        //Act
+        var mockResult = mockService.GetAllCustomers(out bool hasError);
+
+        //Assert
+        Assert.False(hasError);
+        Assert.Equal(2, mockResult.Count()); //Kollar om det finns exakt 2 kunder i listan.
+        Assert.Equal(mockList, mockResult.ToList()); //Kollar om det returnerade värdet samma i båda listorna, mockResult är en IEnumberable och konverteras därför till en list med .ToList för att kunna göra en jämförelse.
+        mockCustomerRepo.Received(1).GetAllCustomers(); //Hämtar GetAllCustomers 1 gång.
+    }
 }
